@@ -1,0 +1,25 @@
+[Unit]
+Description=nogo DNS blacklist/proxy
+Documentation=http://nogo.curia.solutions/
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/local/bin/nogo -db=/var/nogo/nogo.db
+LimitNOFILE=32768
+
+; Use private /tmp and /var/tmp
+PrivateTmp=true
+; Use a minimal /dev
+PrivateDevices=true
+; Hide /home, /root, and /run/user
+ProtectHome=true
+; Make /usr, /boot, /etc and possibly some more folders read-only
+ProtectSystem=full
+; … except /var/nogo, because we want our BoltDB file to live there.
+;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!
+ReadWriteDirectories=/var/nogo
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+language: go
+
+go:
+  - 1.8
+  - tip
+
+matrix:
+  allow_failures:
+    - go: tip
+  fast_finish: true
+
+install:
+  - go get github.com/miekg/dns
+  - go get github.com/boltdb/bolt
+  - go get github.com/pressly/chi
+
+script:
+  - go vet
+  - go test -race
