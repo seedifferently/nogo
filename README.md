@@ -1,18 +1,21 @@
-nogo
-====
+# nogo
 
-[![Linux Build Status](https://img.shields.io/travis/seedifferently/nogo.svg?style=flat-square&label=linux+build)](https://travis-ci.org/seedifferently/nogo) [![Windows Build Status](https://img.shields.io/appveyor/ci/seedifferently/nogo.svg?style=flat-square&label=windows+build)](https://ci.appveyor.com/project/seedifferently/nogo)
+[![Linux Build Status](https://img.shields.io/travis/seedifferently/nogo.svg?style=flat-square&label=linux+build)](https://travis-ci.org/seedifferently/nogo)
+[![Windows Build Status](https://img.shields.io/appveyor/ci/seedifferently/nogo.svg?style=flat-square&label=windows+build)](https://ci.appveyor.com/project/seedifferently/nogo)
 
 
-What?
------
+## What?
 
 `nogo` blocks access to various sites (ads, tracking, porn, gambling, etc) by
 acting as a DNS proxy server with host blacklist support.
 
+It requires minimal setup, and includes a simple web control panel for managing
+the host blacklist.
 
-Why?
-----
+![Screenshot](./screenshot.jpg?raw=true)
+
+
+## Why?
 
 I wanted an open source ad blocker solution that was more universal than a
 browser plugin, and:
@@ -29,13 +32,14 @@ browser plugin, and:
 [1]: https://lifehacker.com/ad-blockers-on-mobile-can-reduce-battery-drain-by-up-to-1764344384
 
 
-How?
-----
+## How?
 
-You may simply [download a binary release](https://github.com/seedifferently/nogo/releases)
-for your platform, or you can follow the steps below to build from source:
+Simply [download a binary release](https://github.com/seedifferently/nogo/releases)
+for your platform.
 
-1. Install [Go](https://golang.org/doc/install) (v1.8 or later is required).
+Or, you may follow these steps to build from source:
+
+1. Install [Go](https://golang.org/doc/install) (requires v1.8 or later).
 
 2. Clone the repo, then `cd` into it.
 
@@ -103,14 +107,13 @@ service IP addresses with the sole IP address of the machine running `nogo`.
 [2]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 
 
-Who?
-----
+## Who?
 
 My name is Seth and I've been talking to machines in various languages since the
 early 90s. If you find this useful and want to say thanks, feel free to
-[tweet me][1], [buy me a beer][2], [share some Satoshi][3], or pass
-[my resume][4] on to someone you know who is tackling interesting problems with
-software.
+[tweet me][1]. If you'd prefer to give back in some way, you could
+[buy me a beer][2], [share some Satoshi][3], or pass [my resume][4] on to
+someone you know who is tackling interesting problems with software.
 
 [1]: https://twitter.com/seedifferently
 [2]: https://paypal.me/seedifferently
