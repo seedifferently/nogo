@@ -20,16 +20,14 @@ the host blacklist.
 I wanted an open source ad blocker solution that was more universal than a
 browser plugin, and:
 
-* Was easy to utilize with unrooted mobile devices (so that [battery life could
-  be conserved][1]).
+* Was easy to utilize with unrooted mobile devices (so that
+  [battery life could be conserved](https://lifehacker.com/ad-blockers-on-mobile-can-reduce-battery-drain-by-up-to-1764344384)).
 * Had a basic web control panel and API for adding, removing, and "pausing"
   hosts.
 * Provided straightforward cross-platform support and acceptable performance (so
   that I could run it from my Raspberry Pi).
 * Could be used as a master host "blacklist" service for network-wide ad
   blocking (e.g. by configuring the DNS on my router to point to `nogo`).
-
-[1]: https://lifehacker.com/ad-blockers-on-mobile-can-reduce-battery-drain-by-up-to-1764344384
 
 
 ## How?
@@ -69,12 +67,12 @@ you add them.
 
 There are currently two methods for adding hosts to the blacklist:
 
-1. Navigate to the web control panel (default: [http://localhost:8080/][1]) and
-   add a host using the form.
+1. Navigate to the web control panel (default: `http://localhost:8080/`) and add
+   a host using the form.
 
 2. Download a popular hosts list file (e.g. pick one from the list at
-   [https://github.com/StevenBlack/hosts][2]), and execute `nogo` with the
-   `-import` switch on its first run.
+   https://github.com/StevenBlack/hosts), and execute `nogo` with the `-import`
+   switch on its first run.
 
 
 #### 2. You must reconfigure your DNS.
@@ -85,15 +83,10 @@ configuration to point to `nogo` (and *only* to `nogo`), nothing will change.
 
 For those of you who may be unfamiliar with how to update your DNS
 configuration, check out Google's guide for their DNS service here:
-[https://developers.google.com/speed/public-dns/docs/using][3]
+https://developers.google.com/speed/public-dns/docs/using
 
 You can follow their instructions, but don't forget to substitute their DNS
 service IP addresses with the sole IP address of the machine running `nogo`.
-
-[1]: http://localhost:8080/
-[2]: https://github.com/StevenBlack/hosts
-[3]: https://developers.google.com/speed/public-dns/docs/using
-
 
 ### Known Issues and Limitations
 
@@ -111,14 +104,14 @@ service IP addresses with the sole IP address of the machine running `nogo`.
 
 My name is Seth and I've been talking to machines in various languages since the
 early 90s. If you find this useful and want to say thanks, feel free to
-[tweet me][1]. If you'd prefer to give back in some way, you could
-[buy me a beer][2], [share some Satoshi][3], or pass [my resume][4] on to
-someone you know who is tackling interesting problems with software.
+[tweet me][3]. If you'd prefer to give back in some way, you could
+[buy me a beer][4], [share some Satoshi][5], or pass [my resume][6] on to
+someone you know who is tackling interesting problems using technology.
 
-[1]: https://twitter.com/seedifferently
-[2]: https://paypal.me/seedifferently
-[3]: https://coinbase.com/seedifferently
-[4]: https://resume.sethdavis.name
+[3]: https://twitter.com/seedifferently
+[4]: https://paypal.me/seedifferently
+[5]: https://coinbase.com/seedifferently
+[6]: https://resume.sethdavis.name
 
 
 Copyright (c) 2017 Seth Davis
