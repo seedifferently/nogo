@@ -33,9 +33,10 @@ browser plugin, and:
 ## How?
 
 Simply [download a binary release](https://github.com/seedifferently/nogo/releases)
-for your platform.
+for your platform. Then be sure to perform the *Important post-install steps*
+outlined below.
 
-Or, you may follow these steps to build from source:
+If you'd rather build from source:
 
 1. Install [Go](https://golang.org/doc/install) (requires v1.8 or later).
 
