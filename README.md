@@ -54,7 +54,7 @@ If you'd rather build from source:
 **Note:**
 
 * Since `nogo` binds to port `:53` by default, it must be given access to
-  "privileged" ports (e.g. via `setuid` or `sudo`).
+  "privileged" ports (e.g. via `setcap` or `sudo`).
 * Run with the `-help` switch for information on additional runtime options
   (such as disabling or password protecting the web control panel).
 
