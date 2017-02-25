@@ -33,10 +33,19 @@ browser plugin, and:
 ## How?
 
 Simply [download a binary release](https://github.com/seedifferently/nogo/releases)
-for your platform. Then be sure to perform the *Important post-install steps*
-outlined below.
+for your platform. Or, if you already have Go v1.8 or later installed you can
+run: `go get github.com/seedifferently/nogo`
 
-If you'd rather build from source:
+**Note:**
+
+* Be sure to read the *Important post-install steps* outlined below.
+* Since `nogo` binds to the DNS port 53 by default, it must be given access to
+  "privileged" ports (e.g. via `setcap` or `sudo`).
+* Run with the `-help` switch for information on additional runtime options
+  (such as disabling or password protecting the web control panel).
+
+
+For those who would rather clone the repo and build from source:
 
 1. Install [Go](https://golang.org/doc/install) (requires v1.8 or later).
 
@@ -50,13 +59,6 @@ If you'd rather build from source:
 4. Build the app by running `make`. Or if you don't have `make`: `go build`
 
 5. Run the app: `sudo ./nogo`
-
-**Note:**
-
-* Since `nogo` binds to port `:53` by default, it must be given access to
-  "privileged" ports (e.g. via `setcap` or `sudo`).
-* Run with the `-help` switch for information on additional runtime options
-  (such as disabling or password protecting the web control panel).
 
 
 ### Important post-install steps:
