@@ -9,10 +9,12 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/boltdb/bolt"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/render"
 )
 
+// H represents a map[string]interface{}
 type H map[string]interface{}
 
 // HTTP basic auth middleware
@@ -223,6 +225,48 @@ func apiDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	render.NoContent(w, r)
+}
+
+// GET /export/hosts.txt
+func exportHostsHandler(w http.ResponseWriter, r *http.Request) {
+	var bol = []byte("0.0.0.0 ") // Beginning of each line
+	var eol = []byte("\n")       // End of each line
+
+	w.Header().Set("Content-Disposition", "attachment; filename=hosts.txt")
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+
+	// Begin with localhost records
+	if _, err := w.Write([]byte("# Exported from nogo (http://nogo.curia.solutions/)\n127.0.0.1 localhost\n127.0.0.1 localhost.localdomain\n127.0.0.1 local\n255.255.255.255 broadcasthost\n::1 localhost\nfe80::1%lo0 localhost\n\n")); err != nil {
+		log.Printf("Write Error: %s\n", err)
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	// Export each host from the db
+	err := db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket(blacklistKey)
+
+		return b.ForEach(func(k, v []byte) error {
+			if v == nil {
+				// Skip "sub-buckets"
+				return nil
+			}
+
+			line := bol
+			line = append(line, k...)
+			line = append(line, eol...)
+			if _, err := w.Write(line); err != nil {
+				return err
+			}
+
+			return nil
+		})
+	})
+	if err != nil {
+		log.Printf("Export Error: %s\n", err)
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
 }
 
 // GET /css/nogo.css

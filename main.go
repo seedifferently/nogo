@@ -20,6 +20,7 @@ import (
 	"github.com/pressly/chi/middleware"
 )
 
+// DB represents the Bolt DB instance
 type DB struct {
 	*bolt.DB
 }
@@ -115,6 +116,7 @@ func main() {
 	r.Get("/api/:key", apiReadHandler)
 	r.Put("/api/:key", apiPutHandler)
 	r.Delete("/api/:key", apiDeleteHandler)
+	r.Get("/export/hosts.txt", exportHostsHandler)
 	r.Get("/css/nogo.css", cssHandler)
 
 	// Initialize/start the servers

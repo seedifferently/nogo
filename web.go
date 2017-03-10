@@ -150,7 +150,8 @@ input {
 
 .actions form.hide { display: none; }
 
-.actions button.icon {
+.icon {
+  display: inline-block;
   vertical-align: text-top;
   width: 16px;
   height: 16px;
@@ -162,19 +163,24 @@ input {
   cursor: pointer;
 }
 
-.actions button.icon:focus {
+.icon:focus {
   outline: 0;
 }
 
-.actions button.icon-pause {
+.icon-download {
+  margin: 0 10px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA7klEQVQ4y2P4//8/AyUYhwQD6yIXhiAGDqkUBmG9TIbSG6GkGiBUzM/QySCsPB+MfQ/MBwqyDn8DGFh3ODPUwjXhwp13mnC7YA2Dtg0bks3o2H36fIbb/5XxewFoiCs/FkOcpsxmuPJfjrgwQDcEh2aIAasY5EQYGBwZRJS84dh1gdsRmCEgzasmyCWJoKkxzvVmOPNfkuFUOEMFVv9Grmtn2L9f5NxcBql6U4ZGrGoWvq1lOBSGL+S18MfIdIIGIGGl9PkJ3gwFDMLe8xnSnNy0GZi6wAbcKmFIZ+CVm02UISjYfD7D6k8pDJRmZwAKde5oo6iShAAAAABJRU5ErkJggg==) left bottom no-repeat;
+}
+
+.icon-pause {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAa0lEQVQ4T2NgoBT8/8/AutaDwY+BQyqFQVglE47NJqYAJfkJyYMMEKoVY+hkEFaej4qj5jM8/q9LSH7UgFEDhpEBvP0KWBRIpc9nuP9fg5A8JEfOZeAVV2YQYxCRl4Rgd0mGhv0i8ByLRx4AJGYUih69s0EAAAAASUVORK5CYII=) left bottom no-repeat;
 }
 
-.actions button.icon-resume {
+.icon-resume {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAxklEQVQ4y2NgoAb4P4vBgEGpypth/38Rsgz4OI0hioFXbjaDUtR8hvyDUQz//7OSZ4Cw8nwwNsyezdB+wY18A2DYtX4iw7ynRuQbAMYG8xmcp9YyrPovR6YBMGw/nyF+aR7QIH4yDYBibAFNkgEwQ7b8dyTDAKA3AlYWY6QXwgZozWfwntjEsO2/MumBaFM2kWHKC3PSo9E8fT5D42VvolIligFKQfMZMnfGAzVykZYSWY2nMQQsKCYrQ/0vZOBkCMWSQIgAAA+ujguwc6ubAAAAAElFTkSuQmCC) left bottom no-repeat;
 }
 
-.actions button.icon-trash {
+.icon-trash {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABUUlEQVQ4y2NgoAXYl8mgzsogZMEgqGTDIGhsw5CwVZdoze/WM3iKMghOZlAxnsYgotLDICLdwyBsPp9h4acUnJrmejCoAxUbgXC+FkMrg0HpfAYbDxuIGJdRuAJDJ4N903wGLQtzsJjLTF2G//9ZwZr//2fg7VdnqGXglZvNIKw1H6hgGk7MKjYNrMZ06kSgRkm4C4CGsC7TZWhkSDk1EW4yFnAqh6GCwWnDbKAaLhQJZAPO9TGYMFhPjMo5xyBlzuAezLBtr/JcbQY/hpn33Igy4NZ0hnQG7frZCVsZDMQZDPoZNh7ybpIEhkvf3faRaIACsgGdd5qIMqCwkIGTQXAVP0jMk0GIDxStOywZhBhWreLHa8AGU6ABQXunYUgiqdnhDUxwTjtmY1XzcCJDGA8oDwgrz8eNDeYzTHmYhzNP/J/LwMvAKyWCE4f+50fXAwB5Y94VTAfmBQAAAABJRU5ErkJggg==) left bottom no-repeat;
 }
 
@@ -281,7 +287,7 @@ var indexTmpl = `<!doctype html>
       {{- if or .data .q .p }}
         {{ if or .q }}Found {{ end }}<span id="data-count">{{ len .data }}</span> of <span id="total-count">{{ .total_count }}</span> total records.
       {{- else }}
-        {{ .total_count }} total records.
+        <a class="icon icon-download" href="/export/hosts.txt" title="Download records as hosts file">&nbsp;</a>{{ .total_count }} total records.
       {{- end }}
       </div>
     </div>
