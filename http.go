@@ -90,8 +90,8 @@ func rootIndexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// POST /
-func rootCreateHandler(w http.ResponseWriter, r *http.Request) {
+// POST /records/
+func recordsCreateHandler(w http.ResponseWriter, r *http.Request) {
 	var rec *Record
 
 	key := r.FormValue("key")
@@ -113,11 +113,11 @@ func rootCreateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Redirect to key view
-	http.Redirect(w, r, strings.Join([]string{"/", key}, ""), 302)
+	http.Redirect(w, r, strings.Join([]string{"/records/", key}, ""), 302)
 }
 
-// GET /:key
-func rootReadHandler(w http.ResponseWriter, r *http.Request) {
+// GET /records/:key
+func recordsReadHandler(w http.ResponseWriter, r *http.Request) {
 	key := chi.URLParam(r, "key")
 
 	rec, err := db.get(key)
@@ -149,101 +149,6 @@ func rootReadHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("tmpl.Execute() Error: %s\n", err)
 		http.Error(w, http.StatusText(500), 500)
 	}
-}
-
-// GET /api/
-func apiIndexHandler(w http.ResponseWriter, r *http.Request) {
-	var data map[string]*Record
-
-	q := r.FormValue("q")
-	p := r.FormValue("p")
-	if len(q) >= 3 { // GET /api/?q=query
-		data = db.find(q)
-	} else if p == "1" { // GET /api/?p=1
-		data = db.getPaused()
-	} else {
-		http.Error(w, http.StatusText(422), 422)
-		return
-	}
-
-	render.JSON(w, r, H{"data": data})
-}
-
-// GET /api/:key
-func apiReadHandler(w http.ResponseWriter, r *http.Request) {
-	key := chi.URLParam(r, "key")
-
-	data, err := db.get(key)
-	if err == errRecordNotFound {
-		http.Error(w, http.StatusText(404), 404)
-		return
-	} else if err != nil {
-		log.Printf("db.get(%s) Error: %s\n", key, err)
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
-
-	render.JSON(w, r, H{"data": H{key: data}})
-}
-
-// PUT /api/:key
-func apiPutHandler(w http.ResponseWriter, r *http.Request) {
-	var data Record
-
-	key := chi.URLParam(r, "key")
-	if len(key) < 4 {
-		http.Error(w, http.StatusText(422), 422)
-		return
-	}
-
-	// Bind
-	if err := render.Bind(r.Body, &data); err != nil && err != io.EOF {
-		log.Printf("render.Bind() Error: %s\n", err)
-		http.Error(w, http.StatusText(400), 400)
-		return
-	}
-
-	// Save
-	if err := db.put(key, &data); err != nil {
-		log.Printf("db.put(%s) Error: %s\n", key, err)
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
-
-	render.JSON(w, r, H{"data": H{key: data}})
-}
-
-// DELETE /api/:key
-func apiDeleteHandler(w http.ResponseWriter, r *http.Request) {
-	key := chi.URLParam(r, "key")
-
-	// Delete
-	if err := db.delete(key); err != nil {
-		log.Printf("db.delete(%s) Error: %s\n", key, err)
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
-
-	render.NoContent(w, r)
-}
-
-// PUT /api/settings/
-func apiSettingsPutHandler(w http.ResponseWriter, r *http.Request) {
-	var data struct {
-		Disabled bool `json:"disabled"`
-	}
-
-	// Bind
-	if err := render.Bind(r.Body, &data); err != nil {
-		log.Printf("render.Bind() Error: %s\n", err)
-		http.Error(w, http.StatusText(400), 400)
-		return
-	}
-
-	// Update disabled toggle
-	isDisabled = data.Disabled
-
-	render.JSON(w, r, H{"data": data})
 }
 
 // GET /export/hosts.txt
@@ -286,6 +191,101 @@ func exportHostsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
+}
+
+// GET /api/records/
+func apiRecordsIndexHandler(w http.ResponseWriter, r *http.Request) {
+	var data map[string]*Record
+
+	q := r.FormValue("q")
+	p := r.FormValue("p")
+	if len(q) >= 3 { // GET /api/records/?q=query
+		data = db.find(q)
+	} else if p == "1" { // GET /api/records/?p=1
+		data = db.getPaused()
+	} else {
+		http.Error(w, http.StatusText(422), 422)
+		return
+	}
+
+	render.JSON(w, r, H{"data": data})
+}
+
+// GET /api/records/:key
+func apiRecordsReadHandler(w http.ResponseWriter, r *http.Request) {
+	key := chi.URLParam(r, "key")
+
+	data, err := db.get(key)
+	if err == errRecordNotFound {
+		http.Error(w, http.StatusText(404), 404)
+		return
+	} else if err != nil {
+		log.Printf("db.get(%s) Error: %s\n", key, err)
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.JSON(w, r, H{"data": H{key: data}})
+}
+
+// PUT /api/records/:key
+func apiRecordsUpdateHandler(w http.ResponseWriter, r *http.Request) {
+	var data Record
+
+	key := chi.URLParam(r, "key")
+	if len(key) < 4 {
+		http.Error(w, http.StatusText(422), 422)
+		return
+	}
+
+	// Bind
+	if err := render.Bind(r.Body, &data); err != nil && err != io.EOF {
+		log.Printf("render.Bind() Error: %s\n", err)
+		http.Error(w, http.StatusText(400), 400)
+		return
+	}
+
+	// Save
+	if err := db.put(key, &data); err != nil {
+		log.Printf("db.put(%s) Error: %s\n", key, err)
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.JSON(w, r, H{"data": H{key: data}})
+}
+
+// DELETE /api/records/:key
+func apiRecordsDeleteHandler(w http.ResponseWriter, r *http.Request) {
+	key := chi.URLParam(r, "key")
+
+	// Delete
+	if err := db.delete(key); err != nil {
+		log.Printf("db.delete(%s) Error: %s\n", key, err)
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.NoContent(w, r)
+}
+
+// PUT /api/settings/
+func apiSettingsUpdateHandler(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Disabled bool `json:"disabled"`
+	}
+
+	// Bind
+	if err := render.Bind(r.Body, &data); err != nil {
+		log.Printf("render.Bind() Error: %s\n", err)
+		http.Error(w, http.StatusText(400), 400)
+		return
+	}
+
+	// Update disabled toggle
+	isDisabled = data.Disabled
+
+	render.JSON(w, r, H{"data": data})
 }
 
 // GET /css/nogo.css

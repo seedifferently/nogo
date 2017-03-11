@@ -111,14 +111,14 @@ func main() {
 
 	// Register HTTP routes/handlers
 	r.Get("/", rootIndexHandler)
-	r.Post("/", rootCreateHandler)
-	r.Get("/:key", rootReadHandler)
-	r.Get("/api/", apiIndexHandler)
-	r.Get("/api/:key", apiReadHandler)
-	r.Put("/api/:key", apiPutHandler)
-	r.Delete("/api/:key", apiDeleteHandler)
-	r.Put("/api/settings/", apiSettingsPutHandler)
+	r.Post("/records/", recordsCreateHandler)
+	r.Get("/records/:key", recordsReadHandler)
 	r.Get("/export/hosts.txt", exportHostsHandler)
+	r.Get("/api/records/", apiRecordsIndexHandler)
+	r.Get("/api/records/:key", apiRecordsReadHandler)
+	r.Put("/api/records/:key", apiRecordsUpdateHandler)
+	r.Delete("/api/records/:key", apiRecordsDeleteHandler)
+	r.Put("/api/settings/", apiSettingsUpdateHandler)
 	r.Get("/css/nogo.css", cssHandler)
 
 	// Initialize/start the servers

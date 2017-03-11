@@ -294,7 +294,7 @@ var indexTmpl = `<!doctype html>
         </form>
       </div>
       <div class="column">
-        <form action="/" method="post">
+        <form action="/records/" method="post">
           <label for="key-input">Add Record</label>
           <input id="key-input" name="key" type="text" value="" minlength="3" placeholder="Type a domain name, then press Enter." autocomplete="off" title="Must be a properly formatted domain." pattern=".+\..{2,}" required>
         </form>
@@ -325,12 +325,12 @@ var indexTmpl = `<!doctype html>
       <div class="column actions"><!--
           Utilize a form for pause/resume, so that those with JavaScript
           disabled may be treated with equality.
-     --><form action="/" method="post" class="pause-form {{ if $v.Paused }}hide{{ end }}">
+     --><form action="/records/" method="post" class="pause-form {{ if $v.Paused }}hide{{ end }}">
           <input type="hidden" name="key" value="{{ $k }}" />
           <input type="hidden" name="paused" value="1" />
           <button class="icon icon-pause" type="submit" title="Pause" data-id="{{ $k }}"></button>
         </form><!-- clear white-space
-     --><form action="/" method="post" class="resume-form {{ if not $v.Paused }}hide{{ end }}">
+     --><form action="/records/" method="post" class="resume-form {{ if not $v.Paused }}hide{{ end }}">
           <input type="hidden" name="key" value="{{ $k }}" />
           <input type="hidden" name="paused" value="0" />
           <button class="icon icon-resume" type="submit" title="Resume" data-id="{{ $k }}"></button>
@@ -382,7 +382,7 @@ var indexTmpl = `<!doctype html>
     }
 
     function pauseRecord(key) {
-      var req = new Request('/api/' + key, {
+      var req = new Request('/api/records/' + key, {
         method: 'PUT',
         body: JSON.stringify({paused: true})
       });
@@ -401,7 +401,7 @@ var indexTmpl = `<!doctype html>
     }
 
     function resumeRecord(key) {
-      var req = new Request('/api/' + key, {
+      var req = new Request('/api/records/' + key, {
         method: 'PUT',
         body: JSON.stringify({paused: false})
       });
@@ -424,7 +424,7 @@ var indexTmpl = `<!doctype html>
         return;
       }
 
-      var req = new Request('/api/' + key, {method: 'DELETE'});
+      var req = new Request('/api/records/' + key, {method: 'DELETE'});
 
       fetch(req)
       .then(function(res) {
