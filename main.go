@@ -31,6 +31,7 @@ var (
 	httpServer   *http.Server
 	dnsClient    = &dns.Client{}
 	blacklistKey = []byte("blacklist")
+	isDisabled   = false
 	version      = "undefined"
 	build        = "undefined"
 
@@ -116,6 +117,7 @@ func main() {
 	r.Get("/api/:key", apiReadHandler)
 	r.Put("/api/:key", apiPutHandler)
 	r.Delete("/api/:key", apiDeleteHandler)
+	r.Put("/api/settings/", apiSettingsPutHandler)
 	r.Get("/export/hosts.txt", exportHostsHandler)
 	r.Get("/css/nogo.css", cssHandler)
 

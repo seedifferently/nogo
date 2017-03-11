@@ -106,7 +106,9 @@ input {
   text-align: center;
 }
 
-#header a {
+#header a.heading {
+  display: inline-block;
+  float: left;
   font-weight: bold;
   font-size: 40px;
   letter-spacing: 2px;
@@ -167,8 +169,26 @@ input {
   outline: 0;
 }
 
+.icon-power {
+  display: block;
+  position: absolute;
+  top: 21px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAACpklEQVRIx61VPWhTURS+g8FBB4VCcXAQFLo9iqaSvKRp/kybJml+zEvSJo0xpAhBrRUVtINohKCYIQQhUCiKBMWItoMtCiWDLop0CnZwc9COuonD530vTd59L38v4nCWe8/57j3nfOc7hOM40s/MFlx5HsHWhxg2EbqfBcft0xJH+jvhcMqHrVqkYT8zKFDwE/8NPDMjg++mUYKeG/kncLsdno0wsgjeNTbS7w7O87Cuhqhv7JmZ+u7vAQ6d14n8xh7IdhxV2PhgV/CT4Ith+RzRFzfoA4c6grtsMnArYMqf7QpuQOal2j/6WHzgoBKcR/Sp2jH9JweTmH63smD4ghfrbIzEpulzaQYcwws+bCqAUz9yMDcZ0auhNHYaVTb2dxr55j0ZMyDLpicFj9v02tmC40szqqy9C4sSuNelfBm+y1eVQ9KfinoTrq+xGMnPOYoxRC4F5MOvSazCwOkH5zmOLgVln28plCnOKCkKbK2/iC8eUQUeiHnkniDzS/Q5pvLR+afk5ko0tph8ZIVNJ/E6x1KpZadhLQZQ2YnT0fecP9NpGiedqChYYzfOkUfsz5Nvc+pB0GZ0AJnefZzFOqy8QO6FGBplKI00ilKbuHllnHoCFfCcmSSYekrpOCfnBgYfg0tR3r2+EKMFhVoHGg1SkoCazkJ+WaSzeKl/GFYNQeDmotaFYBpXclxiyoTZ3dIWpw2lmlpbwk+yHZnD/Nhtw3KbeEXKt5vyS1oa4VHqi7R15in1YnU3TOkhtnkXJxEs+JWlaNS6KXZqPT8F7pZKI9SK907ofr+bopPrmDD32EQYueZt/1E/Q4r+2OEY1bBDoQs7kV0J9getxymfw2vz3QavJ8UEF6wPfLjz6izKbwRU30dQ+RRB6fss3ZvCtr53wznyF88iqrkwth+dAAAAAElFTkSuQmCC) left bottom no-repeat;
+}
+
+.icon-power[data-disabled] {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAACoElEQVRIx61VPWhTYRQ9SZPm5yX9i41JXluTpqatGa4u6hAodVGxDqWIVrooKIitP50KgkJdUhCEDiJSEdsO7dKlDkVwsYIUH3YwSyjYJVAKjsUhy3GoTb73kjTPn+Eu37v3vPude+75ICKoFwMxzK4CNOAgffE5imh26lA/CS13NNDAfmwiWGSvZP4XuH7PXwY3oJG9MvhX4BfCGPsCV5b++AhF3IeBZ3QMrQFZ+vTb1ahSO9SutWP1YwnETUbSUzXBkxh85SyfsyG8QpGjVcGH2rFUBv5d0NY7VxO8G5Nr1vyG2ApFWk3gZxOYWLEkbiNYoC6DtWlB4mEQe4apzkG2pp4r4NDvB1BUk3bQlGfsQBGHDRT6gyAKau03NO+xe78WZ+LIqtfbhL/IThmxrZYk0tN+Cz3NqXkRAa60mv/MQHJpXyX2pXj6GGY/KBg/EM5RpBNTXrXQT8bVru3qHIlpjyWnR85DldM2QgWK9FgKtZvK4LbQtMseOWnNud6CXUOVcUd6CsvKdX4ismHVqohAujD0phG5HDw5hvrGq23jpTDyZXAnGUs/xaKjkis7q22N4TYV3EVG04/xzG2RkU1TsprbLZOcvWSXjOJGUD10ktH+mT8GT2F4WWHgYC44F8OagX+hBtpVEyUg3V3vKKJBUsi8cFmWQEvM230QBmJmjRvwkLET4yVvuRg2d2/AQTZG5qoqR+04jJcV5uXueH9gXqVFqTQhcAfePD1HJhlVtY+WJ02YeO0zb3aJ62R5wdShZGZ8ZgMzTJ7jKH52Vv9W8qRI/2jtl+g4Tj0KVHZUL3YQyFPvu2zjDYU2FkJ20V0fdBONRbraZxitPptDJXY3hOG3Xix8cmBj3YnCVzgLW2hY/w7vAl2hEfXVqRa/AGAchbvAF6o4AAAAAElFTkSuQmCC) left bottom no-repeat;
+}
+
+.icon-power.processing {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAACr0lEQVRIx61VXUhTYRj+GsloFYhUA0egUCZUfMuJCjoPYzEHWzO1WAbahRWSyBK8KWMSGNTFZEG1IUEKkrDIikmyixiWXRgkRjBDZxfDYNRseBFGBE/bWdv5ztnfSbp4b8553ud7v/d9nvcjlFJSLJqvQTcVgf3tV3RgZVgLSnfIySPFQSjpDsAejKQihDULOFr6v8iVF4Ms+TcLOmnZtshbPKh48h3HsewsT10/P3nDADSP1qFFzKdJYHcWIIfCehec/y/J4g/YcEd/OC/5aajdIeE7YuN1iQOUOclbbgrEmYTJVm1e8l5U+6T4mCd5QImYvA9VExJgFGtGDCavn68tUPXOoo3N4dU03XWMIYfycgAdLCiOsAHDaUUUGihUPS9gY3Mj+GxK/ye1V6Blr8cn36Bq2WrhUOqYl7THf66GJ7dOik/G+0s6sUmKS7HWAd1zhmMLL7nkcEn/PJu4Kalars6x1/FOgrlK9xF3mB3iayNMdLfUoXa/MJMIlk04SfdIMIrWKWG4vIyd+kPEy7YEj5tYKWWiG5rRRZhXAA6zFypyudHkglWkGnfTEfJA1KunnNQI8gKKUxMC+UIcbUkDkpElgTyMT2a5SylrufnZnv+0YIBqSBfTT/46Y+bqfyY/j4NekdZTcyGN12EIZsto13Zbws8u6qxPypnQRux3hSQm+DBUI/dB0A+jjjXhx9+wYqS5MrNbuFvi6vkD1u9pcyqHqdgyKibm8zbu16fXbxqoku6X1I7ZMiA6V4nbTJvaoeybRpVrTuzsTK8HBYMJlXSibCgoBks3XiCc/38Ym2Y8NJbnf4kSS6h/JruiYhHHugEe0wEZbygUZ8ag9S4VJ+WHtzF+FO25jVdQYmd9CdsvoOHZKkwzq7C9icK6FIfhC36dAF6p0VNo4JT8AfOI0HtZhtVRAAAAAElFTkSuQmCC) left bottom no-repeat;
+}
+
 .icon-download {
-  margin: 0 10px;
+  margin: 0 8px;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA7klEQVQ4y2P4//8/AyUYhwQD6yIXhiAGDqkUBmG9TIbSG6GkGiBUzM/QySCsPB+MfQ/MBwqyDn8DGFh3ODPUwjXhwp13mnC7YA2Dtg0bks3o2H36fIbb/5XxewFoiCs/FkOcpsxmuPJfjrgwQDcEh2aIAasY5EQYGBwZRJS84dh1gdsRmCEgzasmyCWJoKkxzvVmOPNfkuFUOEMFVv9Grmtn2L9f5NxcBql6U4ZGrGoWvq1lOBSGL+S18MfIdIIGIGGl9PkJ3gwFDMLe8xnSnNy0GZi6wAbcKmFIZ+CVm02UISjYfD7D6k8pDJRmZwAKde5oo6iShAAAAABJRU5ErkJggg==) left bottom no-repeat;
 }
 
@@ -203,6 +223,7 @@ input {
 }
 
 @media (min-width: 640px) {
+  #header a.heading { float: none; }
   .actions button.icon { margin: 0 25px 0 0; }
 }
 
@@ -252,7 +273,14 @@ var indexTmpl = `<!doctype html>
   <header id="header" class="container">
     <div class="row">
       <div class="column">
-        <a href="/">nogo</a>
+        <a class="heading" href="/">nogo</a>
+        <button id="power-button" class="icon icon-power"
+          {{- if .isDisabled }}
+          title="[Disabled] Click to enable nogo" data-disabled
+          {{- else }}
+          title="[Enabled] Click to disable nogo"
+          {{- end -}}
+        ></button>
       </div>
     </div>
   </header>
@@ -285,9 +313,9 @@ var indexTmpl = `<!doctype html>
       {{ end }}
       <div id="count" class="column text-right">
       {{- if or .data .q .p }}
-        {{ if or .q }}Found {{ end }}<span id="data-count">{{ len .data }}</span> of <span id="total-count">{{ .total_count }}</span> total records.
+        {{ if or .q }}Found {{ end }}<span id="data-count">{{ len .data }}</span> of <span id="total-count">{{ .totalCount }}</span> total records.
       {{- else }}
-        <a class="icon icon-download" href="/export/hosts.txt" title="Download records as hosts file">&nbsp;</a>{{ .total_count }} total records.
+        <a class="icon icon-download" href="/export/hosts.txt" title="Download records as hosts file">&nbsp;</a>{{ .totalCount }} total records.
       {{- end }}
       </div>
     </div>
@@ -322,6 +350,37 @@ var indexTmpl = `<!doctype html>
   </footer>
 
   <script type="text/javascript">
+    function togglePower() {
+      var btn = document.getElementById('power-button');
+      var disabled = btn.dataset.disabled === undefined ? true : false;
+
+      btn.classList.add('processing');
+
+      var req = new Request('/api/settings/', {
+        method: 'PUT',
+        body: JSON.stringify({ disabled: disabled })
+      });
+
+      fetch(req)
+      .then(function(res) {
+        btn.classList.remove('processing');
+
+        if (res.ok) {
+          // Toggle power button
+          if (disabled) {
+            btn.setAttribute('data-disabled', '');
+            btn.title = '[Disabled] Click to enable nogo';
+          } else {
+            btn.removeAttribute('data-disabled');
+            btn.title = '[Enabled] Click to disable nogo';
+          }
+        } else {
+          // Shouldn't happen
+          alert('ERROR: ' + res.status + ' ' + res.statusText);
+        }
+      });
+    }
+
     function pauseRecord(key) {
       var req = new Request('/api/' + key, {
         method: 'PUT',
@@ -382,6 +441,11 @@ var indexTmpl = `<!doctype html>
         }
       });
     }
+
+    document.getElementById('power-button').addEventListener('click', function (evt) {
+      togglePower();
+      evt.preventDefault();
+    });
 
     [].forEach.call(
       document.getElementsByClassName('icon-pause'),

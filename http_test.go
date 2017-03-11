@@ -271,6 +271,28 @@ func Test_apiDeleteHandler(t *testing.T) {
 	testEqual(t, "get() err = %+v, want %+v", err, errRecordNotFound)
 }
 
+func Test_apiSettingsPutHandler(t *testing.T) {
+	db.Reset()
+
+	// Disable
+	testEqual(t, "isDisabled = %+v, want %+v", isDisabled, false)
+	r := httptest.NewRequest("GET", "/api/settings/", strings.NewReader("{\"disabled\":true}"))
+	w := httptest.NewRecorder()
+	apiSettingsPutHandler(w, r)
+	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"disabled\":true}}\n")
+	testEqual(t, "isDisabled = %+v, want %+v", isDisabled, true)
+
+	// Enable
+	testEqual(t, "isDisabled = %+v, want %+v", isDisabled, true)
+	r = httptest.NewRequest("GET", "/api/settings/", strings.NewReader("{\"disabled\":false}"))
+	w = httptest.NewRecorder()
+	apiSettingsPutHandler(w, r)
+	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"disabled\":false}}\n")
+	testEqual(t, "isDisabled = %+v, want %+v", isDisabled, false)
+}
+
 func Test_exportHostsHandler(t *testing.T) {
 	db.Reset()
 

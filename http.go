@@ -84,7 +84,7 @@ func rootIndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = tmpl.Execute(w, H{"data": data, "total_count": totalCount, "q": q, "p": p}); err != nil {
+	if err = tmpl.Execute(w, H{"data": data, "isDisabled": isDisabled, "totalCount": totalCount, "q": q, "p": p}); err != nil {
 		log.Printf("tmpl.Execute() Error: %s\n", err)
 		http.Error(w, http.StatusText(500), 500)
 	}
@@ -145,7 +145,7 @@ func rootReadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = tmpl.Execute(w, H{"data": data, "total_count": totalCount}); err != nil {
+	if err = tmpl.Execute(w, H{"data": data, "isDisabled": isDisabled, "totalCount": totalCount}); err != nil {
 		log.Printf("tmpl.Execute() Error: %s\n", err)
 		http.Error(w, http.StatusText(500), 500)
 	}
@@ -225,6 +225,25 @@ func apiDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	render.NoContent(w, r)
+}
+
+// PUT /api/settings/
+func apiSettingsPutHandler(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Disabled bool `json:"disabled"`
+	}
+
+	// Bind
+	if err := render.Bind(r.Body, &data); err != nil {
+		log.Printf("render.Bind() Error: %s\n", err)
+		http.Error(w, http.StatusText(400), 400)
+		return
+	}
+
+	// Update disabled toggle
+	isDisabled = data.Disabled
+
+	render.JSON(w, r, H{"data": data})
 }
 
 // GET /export/hosts.txt
