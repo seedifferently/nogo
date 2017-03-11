@@ -18,7 +18,7 @@ var errRecordNotFound = errors.New("record not found")
 
 // Record represents a hosts record
 type Record struct {
-	Paused bool
+	Paused bool `json:"paused"`
 }
 
 func (r *Record) isAllowed() bool {

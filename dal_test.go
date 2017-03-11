@@ -20,20 +20,20 @@ func TestRecord_isAllowed(t *testing.T) {
 func TestRecord_jsonEncode(t *testing.T) {
 	r := &Record{}
 	d, _ := r.jsonEncode()
-	testEqual(t, "jsonEncode() = %+v, want %+v", string(d), "{\"Paused\":false}")
+	testEqual(t, "jsonEncode() = %+v, want %+v", string(d), "{\"paused\":false}")
 
 	r = &Record{Paused: true}
 	d, _ = r.jsonEncode()
-	testEqual(t, "jsonEncode() = %+v, want %+v", string(d), "{\"Paused\":true}")
+	testEqual(t, "jsonEncode() = %+v, want %+v", string(d), "{\"paused\":true}")
 }
 
 func TestRecord_jsonDecode(t *testing.T) {
 	var r *Record
 
-	r, _ = r.jsonDecode([]byte("{\"Paused\":false}"))
+	r, _ = r.jsonDecode([]byte("{\"paused\":false}"))
 	testEqual(t, "jsonDecode() = %+v, want %+v", *r, Record{})
 
-	r, _ = r.jsonDecode([]byte("{\"Paused\":true}"))
+	r, _ = r.jsonDecode([]byte("{\"paused\":true}"))
 	testEqual(t, "jsonDecode() = %+v, want %+v", *r, Record{Paused: true})
 }
 
@@ -71,7 +71,7 @@ func TestDB_put_get(t *testing.T) {
 	}
 	db.View(func(tx *bolt.Tx) error {
 		v := tx.Bucket(blacklistKey).Get([]byte("empty.test"))
-		testEqual(t, "put() = %+v, want %+v", string(v), "{\"Paused\":false}")
+		testEqual(t, "put() = %+v, want %+v", string(v), "{\"paused\":false}")
 		return nil
 	})
 	r, _ = db.get("empty.test")
@@ -82,7 +82,7 @@ func TestDB_put_get(t *testing.T) {
 	}
 	db.View(func(tx *bolt.Tx) error {
 		v := tx.Bucket(blacklistKey).Get([]byte("paused.test"))
-		testEqual(t, "put() = %+v, want %+v", string(v), "{\"Paused\":true}")
+		testEqual(t, "put() = %+v, want %+v", string(v), "{\"paused\":true}")
 		return nil
 	})
 	r, _ = db.get("paused.test")

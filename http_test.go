@@ -161,7 +161,7 @@ func Test_apiIndexHandler(t *testing.T) {
 	apiIndexHandler(w, r)
 	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
 	testEqual(t, "Content-Type header = %+v, want %+v", w.Header().Get("Content-Type"), "application/json; charset=utf-8")
-	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"test.test\":{\"Paused\":true}}}\n")
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"test.test\":{\"paused\":true}}}\n")
 
 	// List paused records
 	r = httptest.NewRequest("GET", "/api/?p=1", nil)
@@ -169,7 +169,7 @@ func Test_apiIndexHandler(t *testing.T) {
 	apiIndexHandler(w, r)
 	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
 	testEqual(t, "Content-Type header = %+v, want %+v", w.Header().Get("Content-Type"), "application/json; charset=utf-8")
-	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"test.test\":{\"Paused\":true}}}\n")
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"test.test\":{\"paused\":true}}}\n")
 }
 
 func Test_apiReadHandler(t *testing.T) {
@@ -196,7 +196,7 @@ func Test_apiReadHandler(t *testing.T) {
 	apiReadHandler(w, r)
 	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
 	testEqual(t, "Content-Type header = %+v, want %+v", w.Header().Get("Content-Type"), "application/json; charset=utf-8")
-	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"test.test\":{\"Paused\":true}}}\n")
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"test.test\":{\"paused\":true}}}\n")
 }
 
 func Test_apiPutHandler(t *testing.T) {
@@ -220,13 +220,13 @@ func Test_apiPutHandler(t *testing.T) {
 	apiPutHandler(w, r)
 	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
 	testEqual(t, "Content-Type header = %+v, want %+v", w.Header().Get("Content-Type"), "application/json; charset=utf-8")
-	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"unpaused.test\":{\"Paused\":false}}}\n")
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"unpaused.test\":{\"paused\":false}}}\n")
 	// verify record created in db
 	rec, _ := db.get("unpaused.test")
 	testEqual(t, "get() = %+v, want %+v", *rec, Record{Paused: false})
 
 	// Create paused
-	r = httptest.NewRequest("GET", "/api/paused.test", strings.NewReader("{\"Paused\":true}"))
+	r = httptest.NewRequest("GET", "/api/paused.test", strings.NewReader("{\"paused\":true}"))
 	rctx = chi.NewRouteContext()
 	rctx.URLParams.Set("key", "paused.test")
 	w = httptest.NewRecorder()
@@ -234,20 +234,20 @@ func Test_apiPutHandler(t *testing.T) {
 	apiPutHandler(w, r)
 	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
 	testEqual(t, "Content-Type header = %+v, want %+v", w.Header().Get("Content-Type"), "application/json; charset=utf-8")
-	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"paused.test\":{\"Paused\":true}}}\n")
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"paused.test\":{\"paused\":true}}}\n")
 	// verify record created in db
 	rec, _ = db.get("paused.test")
 	testEqual(t, "get() = %+v, want %+v", *rec, Record{Paused: true})
 
 	// Update
-	r = httptest.NewRequest("GET", "/api/unpaused.test", strings.NewReader("{\"Paused\":true}"))
+	r = httptest.NewRequest("GET", "/api/unpaused.test", strings.NewReader("{\"paused\":true}"))
 	rctx = chi.NewRouteContext()
 	rctx.URLParams.Set("key", "unpaused.test")
 	w = httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiPutHandler(w, r)
 	testEqual(t, "Response code = %+v, want %+v", w.Code, 200)
-	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"unpaused.test\":{\"Paused\":true}}}\n")
+	testEqual(t, "Body = %+v, want %+v", w.Body.String(), "{\"data\":{\"unpaused.test\":{\"paused\":true}}}\n")
 	// verify record updated in db
 	rec, _ = db.get("unpaused.test")
 	testEqual(t, "get() = %+v, want %+v", *rec, Record{Paused: true})
