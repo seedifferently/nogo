@@ -264,8 +264,8 @@ var indexTmpl = `<!doctype html>
   <link rel="stylesheet" href="/css/nogo.css">
   <noscript>
     <style type="text/css">
-      /* Trash action requires JavaScript */
-      .actions button.icon-trash { display: none; }
+      /* Power button and trash action requires JavaScript */
+      #power-button, .actions button.icon-trash { display: none; }
     </style>
   </noscript>
 </head>
