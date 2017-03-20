@@ -90,7 +90,7 @@ func Test_recordsCreateHandler(t *testing.T) {
 	r := &http.Request{
 		Method: "POST",
 		URL:    &url.URL{Path: "/records/"},
-		Form:   url.Values{"key": {"tst"}, "paused": {"1"}},
+		Form:   url.Values{"key": {"test"}, "paused": {"1"}},
 	}
 	w := httptest.NewRecorder()
 	recordsCreateHandler(w, r)
@@ -219,16 +219,16 @@ func Test_apiRecordsUpdateHandler(t *testing.T) {
 	db.Reset()
 
 	// Invalid
-	r := httptest.NewRequest("GET", "/api/records/tst", nil)
+	r := httptest.NewRequest("PUT", "/api/records/test", nil)
 	rctx := chi.NewRouteContext()
-	rctx.URLParams.Set("key", "tst")
+	rctx.URLParams.Set("key", "test")
 	w := httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsUpdateHandler(w, r)
 	testEqual(t, "Response code = %+v, want %+v", w.Code, 422)
 
 	// Create
-	r = httptest.NewRequest("GET", "/api/records/unpaused.test", nil)
+	r = httptest.NewRequest("PUT", "/api/records/unpaused.test", nil)
 	rctx = chi.NewRouteContext()
 	rctx.URLParams.Set("key", "unpaused.test")
 	w = httptest.NewRecorder()
@@ -242,7 +242,7 @@ func Test_apiRecordsUpdateHandler(t *testing.T) {
 	testEqual(t, "get() = %+v, want %+v", *rec, Record{Paused: false})
 
 	// Create paused
-	r = httptest.NewRequest("GET", "/api/records/paused.test", strings.NewReader("{\"paused\":true}"))
+	r = httptest.NewRequest("PUT", "/api/records/paused.test", strings.NewReader("{\"paused\":true}"))
 	rctx = chi.NewRouteContext()
 	rctx.URLParams.Set("key", "paused.test")
 	w = httptest.NewRecorder()
@@ -256,7 +256,7 @@ func Test_apiRecordsUpdateHandler(t *testing.T) {
 	testEqual(t, "get() = %+v, want %+v", *rec, Record{Paused: true})
 
 	// Update
-	r = httptest.NewRequest("GET", "/api/records/unpaused.test", strings.NewReader("{\"paused\":true}"))
+	r = httptest.NewRequest("PUT", "/api/records/unpaused.test", strings.NewReader("{\"paused\":true}"))
 	rctx = chi.NewRouteContext()
 	rctx.URLParams.Set("key", "unpaused.test")
 	w = httptest.NewRecorder()
@@ -317,4 +317,14 @@ func Test_cssHandler(t *testing.T) {
 	testEqual(t, "Cache-Control header = %+v, want %+v", w.Header().Get("Cache-Control"), "public, max-age=31536000")
 	testEqual(t, "Content-Type header = %+v, want %+v", w.Header().Get("Content-Type"), "text/css")
 	testEqual(t, "Body contains 'Roboto' = %+v, want %+v", strings.Contains(w.Body.String(), "Roboto"), true)
+}
+
+func Test_isValidDomainName(t *testing.T) {
+	testEqual(t, "isValidDomainName(localhost.localdomain) = %+v, want %+v", isValidDomainName("localhost.localdomain"), false)
+	testEqual(t, "isValidDomainName(test) = %+v, want %+v", isValidDomainName("test"), false)
+	testEqual(t, "isValidDomainName(te.s) = %+v, want %+v", isValidDomainName("te.s"), false)
+	testEqual(t, "isValidDomainName(t.s) = %+v, want %+v", isValidDomainName("t.s"), false)
+	testEqual(t, "isValidDomainName(te.st) = %+v, want %+v", isValidDomainName("te.st"), true)
+	testEqual(t, "isValidDomainName(t.st) = %+v, want %+v", isValidDomainName("t.st"), true)
+	testEqual(t, "isValidDomainName(test.test.test.test) = %+v, want %+v", isValidDomainName("test.test.test.test"), true)
 }

@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/boltdb/bolt"
+	"github.com/miekg/dns"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/render"
 )
@@ -95,7 +96,7 @@ func recordsCreateHandler(w http.ResponseWriter, r *http.Request) {
 	var rec *Record
 
 	key := r.FormValue("key")
-	if len(key) < 4 {
+	if !isValidDomainName(key) {
 		http.Error(w, http.StatusText(422), 422)
 		return
 	}
@@ -233,7 +234,7 @@ func apiRecordsUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	var data Record
 
 	key := chi.URLParam(r, "key")
-	if len(key) < 4 {
+	if !isValidDomainName(key) {
 		http.Error(w, http.StatusText(422), 422)
 		return
 	}
@@ -297,4 +298,30 @@ func cssHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/css")
 
 	w.Write(data)
+}
+
+// isValidDomainName runs a few (intentionally liberal) checks on the passed
+// string to see if it looks like a valid (non-local) domain name.
+func isValidDomainName(d string) bool {
+	// Reject localhost.localdomain
+	if d == "localhost.localdomain" {
+		return false
+	}
+
+	// Run the dns package's check (extremely liberal)
+	if _, ok := dns.IsDomainName(d); !ok {
+		return false
+	}
+
+	// Check for a valid length
+	if len(d) < 4 || len(d) > 255 {
+		return false
+	}
+
+	// Check that it has a dot, and the dot is reasonably positioned
+	if i := strings.IndexByte(d, '.'); i < 1 || i >= len(d)-2 {
+		return false
+	}
+
+	return true
 }

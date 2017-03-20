@@ -217,9 +217,8 @@ func (db *DB) importBlacklist(fname string) error {
 		// Parse line and trim any dots
 		r := strings.Trim(parseRecord(scanner.Text()), ".")
 
-		// Ignore records that seem invalid, or don't contain dots (e.g. "localhost" and "test")
-		i := strings.IndexByte(r, '.')
-		if i < 1 || len(r) < 4 || i >= len(r)-2 {
+		// Ignore records that don't appear to be valid
+		if !isValidDomainName(r) {
 			continue
 		}
 
