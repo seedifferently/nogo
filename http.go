@@ -284,7 +284,9 @@ func apiSettingsUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update disabled toggle
+	isDisabledMu.Lock()
 	isDisabled = data.Disabled
+	isDisabledMu.Unlock()
 
 	render.JSON(w, r, H{"data": data})
 }

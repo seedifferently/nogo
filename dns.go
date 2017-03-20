@@ -8,7 +8,11 @@ import (
 )
 
 func dnsHandler(w dns.ResponseWriter, r *dns.Msg) {
-	if !isDisabled {
+	isDisabledMu.Lock()
+	isEnabled := !isDisabled
+	isDisabledMu.Unlock()
+
+	if isEnabled {
 		// Make a copy of the questions (in case we need them for the error response)
 		qs := make([]dns.Question, len(r.Question))
 		copy(qs, r.Question)

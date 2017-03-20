@@ -26,7 +26,7 @@ func RunLocalDNSServer(laddr string, echo bool) (*dns.Server, string, error) {
 
 	waitLock := sync.Mutex{}
 	waitLock.Lock()
-	server.NotifyStartedFunc = func() { waitLock.Unlock() }
+	server.NotifyStartedFunc = waitLock.Unlock
 
 	go func() {
 		server.ActivateAndServe()
@@ -62,9 +62,9 @@ func Test_dnsHandler(t *testing.T) {
 		t.Errorf("failed to put: %+v", err)
 	}
 
+	// Disallowed record
 	m := new(dns.Msg)
 	m.SetQuestion("test.disallowed.", dns.TypeA)
-
 	r, err := dns.Exchange(m, addrstr)
 	if err != nil {
 		t.Errorf("failed to exchange: %+v", err)
@@ -74,6 +74,23 @@ func Test_dnsHandler(t *testing.T) {
 	testEqual(t, "Disallowed RecursionAvailable = %+v, want %+v", r.RecursionAvailable, false)
 	testEqual(t, "Disallowed Questions = %+v, want %+v", r.Question, m.Question)
 
+	// Disallowed record, isDisabled
+	isDisabledMu.Lock()
+	isDisabled = true
+	isDisabledMu.Unlock()
+	m = new(dns.Msg)
+	m.SetQuestion("test.disallowed.", dns.TypeA)
+	r, err = dns.Exchange(m, addrstr)
+	if err != nil {
+		t.Errorf("failed to exchange: %+v", err)
+	}
+	testEqual(t, "Allowed Rcode = %+v, want %+v", r.Rcode, dns.RcodeSuccess)
+	testEqual(t, "Allowed Questions = %+v, want %+v", r.Question, m.Question)
+	isDisabledMu.Lock()
+	isDisabled = false
+	isDisabledMu.Unlock()
+
+	// Allowed record
 	m = new(dns.Msg)
 	m.SetQuestion("test.allowed.", dns.TypeA)
 	r, err = dns.Exchange(m, addrstr)

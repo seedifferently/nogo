@@ -29,6 +29,7 @@ var (
 	db           *DB
 	dnsServers   []*dns.Server
 	httpServer   *http.Server
+	isDisabledMu sync.Mutex
 	dnsClient    = &dns.Client{}
 	blacklistKey = []byte("blacklist")
 	isDisabled   = false
