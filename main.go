@@ -36,15 +36,16 @@ var (
 	version      = "undefined"
 	build        = "undefined"
 
-	dbPath     = flag.String("db", "nogo.db", "Specify a file path for the database.")
-	dnsAddr    = flag.String("dns-addr", ":53", "Specify an address for the DNS proxy server to listen on.")
-	dnsNet     = flag.String("dns-net", "udp", "Specify the listener protocol(s) for the DNS proxy server to use (\"udp\", \"tcp\", or \"udp+tcp\").")
-	dnsProxyTo = flag.String("dns-proxyto", "8.8.8.8:53,8.8.4.4:53", "Specify one or more (comma separated) upstream DNS server addresses to proxy allowed queries to.")
-	blacklist  = flag.String("import", "", "Specify a file path to import records to block (traditional hosts file format, or simply one domain per line).")
-	webAddr    = flag.String("web-addr", ":8080", "Specify an address for the control panel web server to listen on.")
-	webOff     = flag.Bool("web-off", false, "Instruct nogo not to serve the web control panel/API.")
-	webPasswd  = flag.String("web-password", "", "Instruct the web control panel/API to require basic auth, using the specified password and a username of \"admin\".")
-	showVer    = flag.Bool("version", false, "Show version and exit.")
+	dbPath        = flag.String("db", "nogo.db", "Specify a file path for the database.")
+	dnsAddr       = flag.String("dns-addr", ":53", "Specify an address for the DNS proxy server to listen on.")
+	dnsNet        = flag.String("dns-net", "udp", "Specify the listener protocol(s) for the DNS proxy server to use (\"udp\", \"tcp\", or \"udp+tcp\").")
+	dnsProxyTo    = flag.String("dns-proxyto", "8.8.8.8:53,8.8.4.4:53", "Specify one or more (comma separated) upstream DNS server addresses to proxy allowed queries to.")
+	dnsProxyToNet = flag.String("dns-proxyto-net", "", `If "tcp" or "tcp-tls" (DNS over TLS) a TCP query will be initiated, otherwise an UDP one (default is "" for UDP)`)
+	blacklist     = flag.String("import", "", "Specify a file path to import records to block (traditional hosts file format, or simply one domain per line).")
+	webAddr       = flag.String("web-addr", ":8080", "Specify an address for the control panel web server to listen on.")
+	webOff        = flag.Bool("web-off", false, "Instruct nogo not to serve the web control panel/API.")
+	webPasswd     = flag.String("web-password", "", "Instruct the web control panel/API to require basic auth, using the specified password and a username of \"admin\".")
+	showVer       = flag.Bool("version", false, "Show version and exit.")
 )
 
 func init() {
