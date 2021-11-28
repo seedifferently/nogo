@@ -15,9 +15,9 @@ import (
 	"time"
 
 	"github.com/boltdb/bolt"
+	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
 	"github.com/miekg/dns"
-	"github.com/pressly/chi"
-	"github.com/pressly/chi/middleware"
 )
 
 // DB represents the Bolt DB instance
@@ -113,12 +113,12 @@ func main() {
 	// Register HTTP routes/handlers
 	r.Get("/", rootIndexHandler)
 	r.Post("/records/", recordsCreateHandler)
-	r.Get("/records/:key", recordsReadHandler)
+	r.Get("/records/{key}", recordsReadHandler)
 	r.Get("/export/hosts.txt", exportHostsHandler)
 	r.Get("/api/records/", apiRecordsIndexHandler)
-	r.Get("/api/records/:key", apiRecordsReadHandler)
-	r.Put("/api/records/:key", apiRecordsUpdateHandler)
-	r.Delete("/api/records/:key", apiRecordsDeleteHandler)
+	r.Get("/api/records/{key}", apiRecordsReadHandler)
+	r.Put("/api/records/{key}", apiRecordsUpdateHandler)
+	r.Delete("/api/records/{key}", apiRecordsDeleteHandler)
 	r.Put("/api/settings/", apiSettingsUpdateHandler)
 	r.Get("/css/nogo.css", cssHandler)
 

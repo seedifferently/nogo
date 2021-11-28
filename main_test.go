@@ -79,10 +79,10 @@ func (db *DB) MustClose() {
 	}
 }
 
-func testEqual(t *testing.T, msg string, args ...interface{}) bool {
+func testEqual(t *testing.T, msg string, args ...interface{}) {
+	t.Helper()
 	if !reflect.DeepEqual(args[len(args)-2], args[len(args)-1]) {
-		t.Errorf(msg, args...)
-		return false
+		t.Fatalf(msg, args...)
+
 	}
-	return true
 }
