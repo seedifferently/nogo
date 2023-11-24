@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
@@ -41,6 +42,19 @@ func (r *Record) jsonDecode(data []byte) (*Record, error) {
 	}
 
 	return r, nil
+}
+
+func (r *Record) Bind(req *http.Request) error {
+	return nil
+}
+
+// APISetting represents an API setting.
+type APISetting struct {
+	Disabled bool `json:"disabled"`
+}
+
+func (s *APISetting) Bind(req *http.Request) error {
+	return nil
 }
 
 func (db *DB) keyCount() (int, error) {

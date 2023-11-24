@@ -2,19 +2,21 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
 
-	"github.com/pressly/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 func Test_basicAuth(t *testing.T) {
 	db.Reset()
 
 	// Unauthorized (no Authorization header)
+
 	r := httptest.NewRequest("GET", "/", nil)
 	w := httptest.NewRecorder()
 	cr := chi.NewRouter()
@@ -117,7 +119,7 @@ func Test_recordsReadHandler(t *testing.T) {
 	// No records
 	r := httptest.NewRequest("GET", "/records/test.test", nil)
 	rctx := chi.NewRouteContext()
-	rctx.URLParams.Set("key", "test.test")
+	rctx.URLParams.Add("key", "test.test")
 	w := httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	recordsReadHandler(w, r)
@@ -129,7 +131,7 @@ func Test_recordsReadHandler(t *testing.T) {
 	}
 	r = httptest.NewRequest("GET", "/records/test.test", nil)
 	rctx = chi.NewRouteContext()
-	rctx.URLParams.Set("key", "test.test")
+	rctx.URLParams.Add("key", "test.test")
 	w = httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	recordsReadHandler(w, r)
@@ -194,7 +196,7 @@ func Test_apiRecordsReadHandler(t *testing.T) {
 	// No records
 	r := httptest.NewRequest("GET", "/api/records/test.test", nil)
 	rctx := chi.NewRouteContext()
-	rctx.URLParams.Set("key", "test.test")
+	rctx.URLParams.Add("key", "test.test")
 	w := httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsReadHandler(w, r)
@@ -206,7 +208,7 @@ func Test_apiRecordsReadHandler(t *testing.T) {
 	}
 	r = httptest.NewRequest("GET", "/api/records/test.test", nil)
 	rctx = chi.NewRouteContext()
-	rctx.URLParams.Set("key", "test.test")
+	rctx.URLParams.Add("key", "test.test")
 	w = httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsReadHandler(w, r)
@@ -221,7 +223,7 @@ func Test_apiRecordsUpdateHandler(t *testing.T) {
 	// Invalid
 	r := httptest.NewRequest("PUT", "/api/records/test", nil)
 	rctx := chi.NewRouteContext()
-	rctx.URLParams.Set("key", "test")
+	rctx.URLParams.Add("key", "test")
 	w := httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsUpdateHandler(w, r)
@@ -230,7 +232,7 @@ func Test_apiRecordsUpdateHandler(t *testing.T) {
 	// Create
 	r = httptest.NewRequest("PUT", "/api/records/unpaused.test", nil)
 	rctx = chi.NewRouteContext()
-	rctx.URLParams.Set("key", "unpaused.test")
+	rctx.URLParams.Add("key", "unpaused.test")
 	w = httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsUpdateHandler(w, r)
@@ -244,7 +246,7 @@ func Test_apiRecordsUpdateHandler(t *testing.T) {
 	// Create paused
 	r = httptest.NewRequest("PUT", "/api/records/paused.test", strings.NewReader("{\"paused\":true}"))
 	rctx = chi.NewRouteContext()
-	rctx.URLParams.Set("key", "paused.test")
+	rctx.URLParams.Add("key", "paused.test")
 	w = httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsUpdateHandler(w, r)
@@ -258,7 +260,7 @@ func Test_apiRecordsUpdateHandler(t *testing.T) {
 	// Update
 	r = httptest.NewRequest("PUT", "/api/records/unpaused.test", strings.NewReader("{\"paused\":true}"))
 	rctx = chi.NewRouteContext()
-	rctx.URLParams.Set("key", "unpaused.test")
+	rctx.URLParams.Add("key", "unpaused.test")
 	w = httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsUpdateHandler(w, r)
@@ -277,7 +279,7 @@ func Test_apiRecordsDeleteHandler(t *testing.T) {
 
 	r := httptest.NewRequest("DELETE", "/api/records/test.test", nil)
 	rctx := chi.NewRouteContext()
-	rctx.URLParams.Set("key", "test.test")
+	rctx.URLParams.Add("key", "test.test")
 	w := httptest.NewRecorder()
 	r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 	apiRecordsDeleteHandler(w, r)

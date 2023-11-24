@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/base64"
 	"html/template"
 	"io"
@@ -10,9 +11,9 @@ import (
 	"strings"
 
 	"github.com/boltdb/bolt"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
 	"github.com/miekg/dns"
-	"github.com/pressly/chi"
-	"github.com/pressly/chi/render"
 )
 
 // H represents a map[string]interface{}
@@ -239,8 +240,10 @@ func apiRecordsUpdateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	r = r.WithContext(context.WithValue(r.Context(), render.ContentTypeCtxKey, render.ContentType(render.ContentTypeJSON)))
+
 	// Bind
-	if err := render.Bind(r.Body, &data); err != nil && err != io.EOF {
+	if err := render.Bind(r, &data); err != nil && err != io.EOF {
 		log.Printf("render.Bind() Error: %s\n", err)
 		http.Error(w, http.StatusText(400), 400)
 		return
@@ -272,12 +275,12 @@ func apiRecordsDeleteHandler(w http.ResponseWriter, r *http.Request) {
 
 // PUT /api/settings/
 func apiSettingsUpdateHandler(w http.ResponseWriter, r *http.Request) {
-	var data struct {
-		Disabled bool `json:"disabled"`
-	}
+	var data APISetting
+
+	r = r.WithContext(context.WithValue(r.Context(), render.ContentTypeCtxKey, render.ContentType(render.ContentTypeJSON)))
 
 	// Bind
-	if err := render.Bind(r.Body, &data); err != nil {
+	if err := render.Bind(r, &data); err != nil {
 		log.Printf("render.Bind() Error: %s\n", err)
 		http.Error(w, http.StatusText(400), 400)
 		return
